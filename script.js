@@ -5,6 +5,7 @@ import { GLTFLoader } from "https://unpkg.com/three@0.120.1/examples/jsm/loaders
 $(document).ready(function () {
   setTimeout(() => {
     $(".loader").addClass("hidden");
+    $(".instruction").removeClass("hidden");
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
 
