@@ -329,5 +329,5 @@ $(document).ready(function () {
     });
 
     window.requestAnimationFrame(animate);
-  }, 2000);
+  }, 1000);
 });
