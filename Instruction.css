@@ -1,0 +1,16 @@
+.instruction {
+    font-weight: bold;
+    width: auto;
+    height: auto;
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 1px 1px 67px 11px rgba(0,186,255,0.71);
+-webkit-box-shadow: 1px 1px 67px 11px rgba(0,186,255,0.71);
+-moz-box-shadow: 1px 1px 67px 11px rgba(0,186,255,0.71);
+font-size: 20px;
+}
