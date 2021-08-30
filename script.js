@@ -111,8 +111,6 @@ $(document).ready(function () {
           const box = new THREE.Box3();
           box.position = new THREE.Vector3(a, 2.5, b);
           box.expandByObject(root);
-          const helper = new THREE.Box3Helper(box, 0x000000);
-          scene.add(helper);
           boxes[i]=box;
           root.traverse(function (child) {
             if (child.isMesh) {
