@@ -26,7 +26,8 @@ $(document).ready(function () {
     });
 
     const scene = new THREE.Scene();
-    let points=[];
+    let points = [];
+    let boxes=[];
     let arr = [
       { x: 10, z: 15 },
       { x: 40, z: -10 },
@@ -107,12 +108,19 @@ $(document).ready(function () {
           root.scale.x = 0.75;
           root.scale.z = 0.75;
           root.scale.y = 0.75;
+          const box = new THREE.Box3();
+          box.position = new THREE.Vector3(a, 2.5, b);
+          box.expandByObject(root);
+          const helper = new THREE.Box3Helper(box, 0x000000);
+          scene.add(helper);
+          boxes[i]=box;
           root.traverse(function (child) {
             if (child.isMesh) {
               let m = child;
               m.receiveShadow = true;
               m.castShadow = true;
               m.material.flatShading = true;
+
               points[i] = m;
             }
           });
@@ -136,8 +144,6 @@ $(document).ready(function () {
     const mouse = new THREE.Vector2();
 
     function onMouseMove(event) {
-
-
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
@@ -153,65 +159,79 @@ $(document).ready(function () {
     let stringText = [];
     let linkOpen;
     function render() {
-      if(points.length>0){
-      // update the picking ray with the camera and mouse position
-      raycaster.setFromCamera(mouse, camera);
+      if (points.length > 0) {
+        // update the picking ray with the camera and mouse position
+        raycaster.setFromCamera(mouse, camera);
 
-      // calculate objects intersecting the picking ray
-      
-       const intersects = raycaster.intersectObjects(points);
-
-      if (intersects.length > 0) {
-        linkOpen = true;
+        let ray1=new THREE.Ray();
+        ray1=raycaster.ray;
+        linkOpen=false;
         for (let i = 0; i < 6; i++) {
-          if (intersects[0].object.parent == points[i].parent) {
+          if(ray1.intersectsBox(boxes[i]))
+          {
+            linkOpen = true;
             j = i;
-            intersects[0].object.parent.scale.x = 1;
-            intersects[0].object.parent.scale.z = 1;
-            intersects[0].object.parent.scale.y = 1;
-
-            break;
+              points[i].parent.scale.x = 1;
+              points[i].parent.scale.z = 1;
+              points[i].parent.scale.y = 1;
+              boxes[i].expandByObject(points[i]);
           }
         }
-      } else {
-        linkOpen = false;
-      }
+        // calculate objects intersecting the picking ray
 
-      const loader = new THREE.FontLoader();
-      if (stringadd[j] != true) {
-        loader.load(
-          "https://unpkg.com/three@0.120.1/examples/fonts/droid/droid_sans_regular.typeface.json",
-          addText
-        );
-        function addText(font) {
-          const geometry1 = new THREE.TextGeometry(strings[j], {
-            font: font,
-            size: 4,
-            height: 1,
-            curveSegments: 12,
-            bevelEnabled: true,
-            bevelThickness: 0.1,
-            bevelSize: 0.1,
-            bevelOffset: 0.1,
-            bevelSegments: 0,
-          });
-          var textMaterial = new THREE.MeshPhongMaterial({ color: 0xad000e });
-          var mesh = new THREE.Mesh(geometry1, textMaterial);
-          mesh.position.set(
-            arr[j].x - (strings[j].length / 2) * 2,
-            2.5,
-            arr[j].z + 3.5
+        // const intersects = raycaster.intersectObjects(points);
+        // console.log(intersects);
+        // if (intersects.length > 0) {
+        //   linkOpen = true;
+        //   for (let i = 0; i < 6; i++) {
+        //     if (intersects[0].object.parent == points[i].parent) {
+        //       j = i;
+        //       intersects[0].object.parent.scale.x = 1;
+        //       intersects[0].object.parent.scale.z = 1;
+        //       intersects[0].object.parent.scale.y = 1;
+
+        //       break;
+        //     }
+        //   }
+        // } else {
+        //   linkOpen = false;
+        // }
+
+        const loader = new THREE.FontLoader();
+        if (stringadd[j] != true) {
+          loader.load(
+            "https://unpkg.com/three@0.120.1/examples/fonts/droid/droid_sans_regular.typeface.json",
+            addText
           );
-          stringText[j] = mesh;
-          mesh.lookAt(camera.position);
-          scene.add(mesh);
+          function addText(font) {
+            const geometry1 = new THREE.TextGeometry(strings[j], {
+              font: font,
+              size: 4,
+              height: 1,
+              curveSegments: 12,
+              bevelEnabled: true,
+              bevelThickness: 0.1,
+              bevelSize: 0.1,
+              bevelOffset: 0.1,
+              bevelSegments: 0,
+            });
+            var textMaterial = new THREE.MeshPhongMaterial({ color: 0xad000e });
+            var mesh = new THREE.Mesh(geometry1, textMaterial);
+            mesh.position.set(
+              arr[j].x - (strings[j].length / 2) * 2,
+              2.5,
+              arr[j].z + 3.5
+            );
+            stringText[j] = mesh;
+            mesh.lookAt(camera.position);
+            scene.add(mesh);
+          }
+          stringadd[j] = true;
         }
-        stringadd[j] = true;
-      }
 
-      renderer.render(scene, camera);
+        renderer.render(scene, camera);
+      }
     }
-  }
 
     window.addEventListener("mousemove", onMouseMove, false);
     window.addEventListener("click", whattodo);
@@ -227,10 +247,9 @@ $(document).ready(function () {
       }
     }
     let moveObj;
-  
+
     let mesh1;
     carMesh();
-
 
     function carMesh() {
       let loader = new GLTFLoader();
@@ -305,6 +324,7 @@ $(document).ready(function () {
         window.open("https://www.linkedin.com/in/tanish-gupta-099ba9194/");
       else if (k == 5) window.open("https://github.com/d0ppler12");
       else if (k == 0) {
+        console.log(boxes);
         $(".bd-example-modal-lg").modal("toggle");
         $(".modal-title").text("About Me");
         $("#10").removeClass("hidden");
