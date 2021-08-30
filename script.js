@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     const scene = new THREE.Scene();
     let points = [];
-    let boxes=[];
+    let boxes = [];
     let arr = [
       { x: 10, z: 15 },
       { x: 40, z: -10 },
@@ -61,8 +61,8 @@ $(document).ready(function () {
     orbit.maxPolarAngle = Math.PI * 0.45;
     orbit.minAzimuthalAngle = 0;
     orbit.maxAzimuthalAngle = Math.PI * 0.2;
-    orbit.maxDistance = 125;
-    orbit.minDistance = 40;
+    orbit.maxDistance = 200;
+    orbit.minDistance = 60;
 
     const space = new THREE.TextureLoader().load("bg1.jpg");
     scene.background = space;
@@ -111,7 +111,7 @@ $(document).ready(function () {
           const box = new THREE.Box3();
           box.position = new THREE.Vector3(a, 2.5, b);
           box.expandByObject(root);
-          boxes[i]=box;
+          boxes[i] = box;
           root.traverse(function (child) {
             if (child.isMesh) {
               let m = child;
@@ -161,18 +161,17 @@ $(document).ready(function () {
         // update the picking ray with the camera and mouse position
         raycaster.setFromCamera(mouse, camera);
 
-        let ray1=new THREE.Ray();
-        ray1=raycaster.ray;
-        linkOpen=false;
+        let ray1 = new THREE.Ray();
+        ray1 = raycaster.ray;
+        linkOpen = false;
         for (let i = 0; i < 6; i++) {
-          if(ray1.intersectsBox(boxes[i]))
-          {
+          if (ray1.intersectsBox(boxes[i])) {
             linkOpen = true;
             j = i;
-              points[i].parent.scale.x = 1;
-              points[i].parent.scale.z = 1;
-              points[i].parent.scale.y = 1;
-              boxes[i].expandByObject(points[i]);
+            points[i].parent.scale.x = 1;
+            points[i].parent.scale.z = 1;
+            points[i].parent.scale.y = 1;
+            boxes[i].expandByObject(points[i]);
           }
         }
         // calculate objects intersecting the picking ray
