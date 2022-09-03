@@ -174,25 +174,6 @@ $(document).ready(function () {
             boxes[i].expandByObject(points[i]);
           }
         }
-        // calculate objects intersecting the picking ray
-
-        // const intersects = raycaster.intersectObjects(points);
-        // console.log(intersects);
-        // if (intersects.length > 0) {
-        //   linkOpen = true;
-        //   for (let i = 0; i < 6; i++) {
-        //     if (intersects[0].object.parent == points[i].parent) {
-        //       j = i;
-        //       intersects[0].object.parent.scale.x = 1;
-        //       intersects[0].object.parent.scale.z = 1;
-        //       intersects[0].object.parent.scale.y = 1;
-
-        //       break;
-        //     }
-        //   }
-        // } else {
-        //   linkOpen = false;
-        // }
 
         const loader = new THREE.FontLoader();
         if (stringadd[j] != true) {
@@ -314,7 +295,7 @@ $(document).ready(function () {
     function toDoThings() {
       if (k == 2)
         window.open(
-          "https://drive.google.com/file/d/17Ref15kl9HwKTczvDo75kSyZWEwhnFog/view?usp=sharing"
+          "https://drive.google.com/file/d/1PE3Miknj1_fbsmsVLPi_F5JO6cAT3Q-c/view?usp=sharing"
         );
       else if (k == 3) window.open("https://d0ppler.itch.io/");
       else if (k == 4)
