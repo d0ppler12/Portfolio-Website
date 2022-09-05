@@ -127,7 +127,7 @@ $(document).ready(function () {
         },
         // called while loading is progressing
         function (xhr) {
-          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+          //console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
         },
         //called when loading has errors
         function (error) {
@@ -302,7 +302,6 @@ $(document).ready(function () {
         window.open("https://www.linkedin.com/in/tanish-gupta-099ba9194/");
       else if (k == 5) window.open("https://github.com/d0ppler12");
       else if (k == 0) {
-        console.log(boxes);
         $(".bd-example-modal-lg").modal("toggle");
         $(".modal-title").text("About Me");
         $("#10").removeClass("hidden");
