@@ -5,10 +5,10 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: radial-gradient(#f4fdfc, #f9f4ed);
+  background-color: white;
 }
 .loader {
-  position: relative;
+  position: fixed;
   width: 180px;
   height: 180px;
   display: flex;
